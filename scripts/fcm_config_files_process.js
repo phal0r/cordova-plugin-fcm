@@ -16,6 +16,12 @@ fs.ensureDirSync = function (dir) {
     }
 };
 
+var resolvePath = function (dir) {
+    if (fs.existsSync(dir + "/res/values"))
+        return "/res/values/";
+    else return "/app/src/main/res/values/"
+}
+
 var config = fs.readFileSync('config.xml').toString();
 var name = getValue(config, 'name');
 
@@ -36,6 +42,7 @@ var PLATFORM = {
     },
     ANDROID: {
         dest: [
+            ANDROID_DIR + '/app/google-services.json',
             ANDROID_DIR + '/google-services.json'
         ],
         src: [
@@ -43,7 +50,7 @@ var PLATFORM = {
             ANDROID_DIR + '/assets/www/google-services.json',
             'www/google-services.json'
         ],
-        stringsXml: ANDROID_DIR + '/res/values/strings.xml'
+        stringsXml: ANDROID_DIR + resolvePath(ANDROID_DIR)+'strings.xml'
     }
 };
 
